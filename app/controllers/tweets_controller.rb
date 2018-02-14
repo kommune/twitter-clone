@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:show, :edit, :update]
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
   
   def index
     @tweets = Tweet.all
@@ -34,6 +34,12 @@ class TweetsController < ApplicationController
       flash.now[:alert] = "Tweet failed to update"
       render :edit
     end
+  end
+
+  def destroy
+    @tweet.destroy
+    redirect_to tweets_path
+    flash[:alert] = "Tweet was deleted"
   end
 
   private
