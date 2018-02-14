@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  
   def index
     @users = User.all
   end
@@ -20,10 +21,36 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      flash[:notice] = "User was successfully updated"
+      redirect_to user_path(user_params)
+    else
+      flash.now[:alert] = "User failed to update"
+      render :edit
+    end
+  end
+
+  def destroy
+    @user.destroy
+    redirect_to users_path
+    flash[:alert] = "User was deleted"
+  end
+
 private
 
   def user_params
     params.require(:user).permit(:name, :handlename, :email)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
 end
