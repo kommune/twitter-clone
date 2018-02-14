@@ -1,1 +1,9 @@
-<h1> account create successful</h1>
+<h1>Hello welcome to clone twitter</h1>
+<% @users.each do |user| %>
+  </br>
+  Name: <%= user.name%> </br>
+  Handlename: <%= user.handlename%> </br>
+  Email: <%= user.email%> </br>
+<% end %>
+
+<%= link_to 'New Tweet', new_tweet_path %>
