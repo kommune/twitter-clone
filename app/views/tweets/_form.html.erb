@@ -1,0 +1,19 @@
+<% if @tweet.errors.any? %>
+  <h2>We have an error here!</h2>
+  <ul>
+    <% @tweet.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @tweet do |f| %>
+  <%= f.label :tweet, "Tweet" %>
+  <%= f.text_field :tweet %>
+  
+  <%= f.label :image, "Photo" %>
+  <%= image_tag @restaurant.image, width: '300px' if @restaurant.image? %>
+  <%= f.file_field :image %>
+
+  <%= f.submit %>
+<% end %>
