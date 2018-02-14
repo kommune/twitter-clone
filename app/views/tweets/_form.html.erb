@@ -10,6 +10,10 @@
 <%= form_for @tweet do |f| %>
   <%= f.label :tweet, "Tweet" %>
   <%= f.text_field :tweet %>
+  
+  <%= f.label :image, "Photo" %>
+  <%= image_tag @restaurant.image, width: '300px' if @restaurant.image? %>
+  <%= f.file_field :image %>
 
   <%= f.submit %>
 <% end %>
