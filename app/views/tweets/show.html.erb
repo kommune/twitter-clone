@@ -1,7 +1,7 @@
 
-User: <%= @user.handlename%>
+User: <%= current_user.handlename %>
 Tweet: <%= @tweet.tweet %><br>
-<%= image_tag @restaurant.image, width: '500px' %>
+<%= image_tag @tweet.image, width: '500px' %>
 <br />
 
 <%= link_to 'Back to index', tweets_path %>
