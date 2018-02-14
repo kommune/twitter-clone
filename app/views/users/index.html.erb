@@ -4,6 +4,9 @@
   Name: <%= user.name%> </br>
   Handlename: <%= user.handlename%> </br>
   Email: <%= user.email%> </br>
+  <%= link_to 'Edit', edit_user_path(user) %>
+  <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
 
+</br>
 <%= link_to 'New Tweet', new_tweet_path %>
