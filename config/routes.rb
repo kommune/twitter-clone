@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root "users#index"
 
   resources :tweets
-  resources :users
+
+  resources :users do
+    get :search, on: :collection
+  end
   
 end
