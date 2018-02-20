@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   
   def index
     @user = current_user
+    @user_tweets = @user.tweets.all
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
   end
 
