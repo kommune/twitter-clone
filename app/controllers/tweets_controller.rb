@@ -1,9 +1,11 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  
   before_action :authenticate_user!
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tweets = Tweet.all
+    @user = current_user
+    @user_tweets = @user.tweets.all
   end
 
   def new
@@ -14,7 +16,7 @@ class TweetsController < ApplicationController
     @tweet = current_user.tweets.new(tweet_params)
     if @tweet.save
       flash[:notice] = "Tweet was successfully created!"
-      redirect_to tweets_path
+      redirect_to users_path
     else
       flash.now[:alert] = "Tweet creation failed"
       render :new
@@ -30,7 +32,7 @@ class TweetsController < ApplicationController
   def update
     if @tweet.update(tweet_params)
       flash[:notice] = "Tweet was successfully updated!"
-      redirect_to tweets_path
+      redirect_to users_path
     else
       flash.now[:alert] = "Tweet failed to update"
       render :edit
@@ -39,7 +41,7 @@ class TweetsController < ApplicationController
 
   def destroy
     @tweet.destroy
-    redirect_to tweets_path
+    redirect_to users_path
     flash[:alert] = "Tweet was deleted"
   end
 
