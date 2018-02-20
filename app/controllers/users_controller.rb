@@ -43,6 +43,11 @@ class UsersController < ApplicationController
     flash[:alert] = "User was deleted"
   end
 
+  def search
+    @tweet_searches = Tweet.where('tweet LIKE ?', "%#{params[:q]}%")
+    @user_searches = User.where('handlename LIKE ?', "%#{params[:q]}%")
+  end
+
 private
 
   def user_params

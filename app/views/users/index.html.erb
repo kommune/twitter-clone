@@ -49,9 +49,15 @@
   </div>
 
   <div class="nav-col">
-    </br></br>
-    Search bar here
-    </br></br>
+
+  </br>
+
+    <%= form_tag search_users_path, method: :get do %>
+    <%= text_field_tag :q, params[:q], placeholder: 'Search here' %>
+    <%= image_submit_tag("/assets/find.png", width: '25', height: '25') %>
+    <% end %>
+
+    </br>
     
     <div class="dropdown">
       <button class="dropbtn">Account Options</button>
