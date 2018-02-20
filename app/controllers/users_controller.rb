@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   
   def index
-    @users = User.all
+    @user = current_user
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
   end
 
   def new
@@ -24,16 +25,14 @@ class UsersController < ApplicationController
   def show
   end
 
-  def edit
-  end
-
   def update
+    
     if @user.update(user_params)
-      flash[:notice] = "User was successfully updated"
-      redirect_to user_path(user_params)
+      flash[:notice] = "Profile was successfully updated"
+      redirect_to users_path
     else
-      flash.now[:alert] = "User failed to update"
-      render :edit
+      flash[:alert] = "Update failed due to duplicate Email or Handlename @, please try again."
+      redirect_to users_path
     end
   end
 
@@ -46,7 +45,7 @@ class UsersController < ApplicationController
 private
 
   def user_params
-    params.require(:user).permit(:name, :handlename, :email)
+    params.require(:user).permit(:name, :handlename, :email, :img)
   end
 
   def set_user
