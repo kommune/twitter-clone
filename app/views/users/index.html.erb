@@ -1,12 +1,108 @@
-<h1>Hello welcome to clone twitter</h1>
-<% @users.each do |user| %>
-  </br>
-  Name: <%= user.name%> </br>
-  Handlename: <%= user.handlename%> </br>
-  Email: <%= user.email%> </br>
-  <%= link_to 'Edit', edit_user_path(user) %>
-  <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
+<div class="user-index-container">
+  <div class="avatar-col">
+    <table>
+      <tr>  
+        <td><%= image_tag current_user.img, class: "avatar-pic" %></td>
+        <td><strong class="avatar-name"><%= current_user.name %></strong></br>
+        <div class="avatar-handlename">@<%= current_user.handlename%></div></br>
+        <button id="editProfile" class="edit-profile-btn">Edit Profile</button></td>
+      </tr>
+    </table>
+  </div>
 
-</br>
-<%= link_to 'New Tweet', new_tweet_path %>
+  <div class="trending-col">
+    <h3 class="trending-col-header">Trending on Twitta-Sphere</h3>
+    <%trending_array = []
+
+      @tweets.each do |tweet|
+        trending_array << tweet.tweet.scan(/#\w+/)
+      end
+      
+      trending_array = trending_array.flatten 
+      trending_hash = Hash.new(0) 
+      
+      trending_array.each do |v|
+        trending_hash[v] += 1
+      end
+      
+       trending_hash.sort.each do |key, value|
+    %>
+
+    <p class="trending-col-k"><strong><%= key %></strong></p>
+    <p class="trending-col-v"><strong><%= value %></strong> tweets</p>
+
+    <% end %>
+
+  </div>
+
+  <div class="tweets-col">
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="alert"><%= flash[:alert] %></div>
+    <% end %>
+
+    <%= link_to 'New Tweet', new_tweet_path %>
+
+  </div>
+
+  <div class="nav-col">
+    </br></br>
+    Search bar here
+    </br></br>
+    
+    <div class="dropdown">
+      <button class="dropbtn">Account Options</button>
+      <div class="dropdown-content">
+        <a><%= link_to 'Change password', edit_user_registration_path, method: :get %></a>
+        <a><%= link_to 'Terminate Account', user_path(current_user.id), method: :delete, data: {confirm:"Are you sure?"} %></a>
+        <a><%= link_to('Log out', destroy_user_session_path, method: :delete) %></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="followers-col">
+    <strong>Followers Section</strong>
+  </div>
+
+
+</div>
+
+
+<!-- The Modal -->
+<div id="editProfileModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close"></span>  
+    <%= render partial: "edit_profile_form" %>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+const modalEdit = document.getElementById('editProfileModal');
+
+// Get the button that opens the modal
+const btnEdit = document.getElementById("editProfile");
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btnEdit.onclick = function() {
+    modalEdit.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modalEdit) {
+        modalEdit.style.display = "none";
+    }
+}
+
+</script>

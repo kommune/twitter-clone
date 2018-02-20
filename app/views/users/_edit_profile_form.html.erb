@@ -1,0 +1,50 @@
+<div class="edit-profile-container">
+
+  <div class="edit-profile-pdetails">
+    <h1 align="center"><u>Edit profile details</u></h1>
+
+    <%= form_for @user do |f| %>
+    
+    <table>
+      <tr>
+        <td><h2>Select a new Avatar</h2><div class="edit-profile-buttons"><%= f.file_field :img, class: "edit-profile-buttons" %></div></td>
+        <td><%= image_tag @user.img, class: "avatar-pic" if @user.img? %></br></td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td class="edit-profile-td">
+          <%= f.label "Name" %>
+        </td>
+        <td>
+          <%= f.text_field :name, class: "main-page-login-textbox" %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="edit-profile-td">
+          <%= f.label "Handlename @" %>
+        </td>
+        <td>
+          <%= f.text_field :handlename, class: "main-page-login-textbox" %>
+        </td>
+      </tr>
+
+       <tr>
+        <td class="edit-profile-td">
+           <%= f.label "email" %>
+        </td>
+        <td>
+          <%= f.text_field :email, class: "main-page-login-textbox" %>
+        </td>
+       </tr>
+    </table></br>
+
+    <%= f.submit %>
+
+    <% end %>
+    
+  </div>
+
+</div>

@@ -5,4 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :tweets
+
+  mount_uploader :img, PhotoUploader
+
+  validates :handlename, presence: :true, uniqueness: { case_sensitive: false }
+
+
 end
