@@ -49,7 +49,11 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
   end
 
+  def follow
+  end
+
 private
+
 
   def user_params
     params.require(:user).permit(:name, :handlename, :email, :img)

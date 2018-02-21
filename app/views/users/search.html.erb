@@ -38,6 +38,13 @@
         @<%= u.handlename %>
         </br> 
 
+        <%= form_tag follow_users_path, method: :post do %>
+        <%= hidden_field_tag :follow, u.id %>
+        <%= submit_tag 'follow' %>
+        <% end %>
+
+        </br>
+
       <% end %>
     <% end%>
 

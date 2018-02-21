@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :users do
     get :search, on: :collection
+    post :follow, on: :collection
   end
   
 end
