@@ -3,6 +3,13 @@ Rails.application.routes.draw do
 
   root "users#index"
 
+  resources :users do
+    resources :tweets do
+      post :like, on: :member
+      delete :dislike, on: :member
+    end
+  end
+
   resources :tweets
 
   resources :users do

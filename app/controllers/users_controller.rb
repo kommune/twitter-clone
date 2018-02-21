@@ -55,6 +55,7 @@ class UsersController < ApplicationController
     redirect_to search_users_path
   end
 
+
 private
 
   def user_params

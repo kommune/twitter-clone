@@ -18,6 +18,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # Use Devise to create users
 gem 'devise'
+# Use jQuery
+# gem 'jquery-rails'
 # Use Carrier Wave to add images
 gem 'carrierwave'
 # See https://github.com/rails/execjs#readme for more supported runtimes
