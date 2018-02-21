@@ -44,8 +44,9 @@ class UsersController < ApplicationController
   end
 
   def search
-    @tweet_searches = Tweet.where('tweet LIKE ?', "%#{params[:q]}%")
+    @tweet_searches = Tweet.all.where('tweet LIKE ?', "%#{params[:q]}%")
     @user_searches = User.where('handlename LIKE ?', "%#{params[:q]}%")
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
   end
 
 private

@@ -11,14 +11,14 @@
         <td><%= image_tag @user.img, class: "avatar-pic" if @user.img? %></br></td>
       </tr>
     </table>
-
+    
     <table>
       <tr>
         <td class="edit-profile-td">
           <%= f.label "Name" %>
         </td>
         <td>
-          <%= f.text_field :name, class: "main-page-login-textbox" %>
+          <%= f.text_field :name, class: "edit-profile-textbox" %>
         </td>
       </tr>
 
@@ -27,7 +27,7 @@
           <%= f.label "Handlename @" %>
         </td>
         <td>
-          <%= f.text_field :handlename, class: "main-page-login-textbox" %>
+          <%= f.text_field :handlename, class: "edit-profile-textbox" %>
         </td>
       </tr>
 
@@ -36,7 +36,7 @@
            <%= f.label "email" %>
         </td>
         <td>
-          <%= f.text_field :email, class: "main-page-login-textbox" %>
+          <%= f.text_field :email, class: "edit-profile-textbox" %>
         </td>
        </tr>
     </table></br>

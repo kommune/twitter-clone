@@ -1,12 +1,84 @@
-<% @tweet_searches.each do |s| %>
+<div class="user-index-container">
+  <div class="search-trending-col">
+  
+    <h5 class="trending-col-header"><strong>Trending on Twitta-Sphere</strong></h5>
+    <%trending_array = []
 
-  <%= s.tweet %></br>
+      @tweets.each do |tweet|
+        trending_array << tweet.tweet.scan(/#\w+/)
+      end
+      
+      trending_array = trending_array.flatten 
+      trending_hash = Hash.new(0) 
+      
+      trending_array.each do |v|
+        trending_hash[v] += 1
+      end
+      
+       trending_hash.sort.each do |key, value|
+    %>
 
-<% end %>
+    <p class="trending-col-k"><strong><%= key %></strong></p>
+    <p class="trending-col-v"><strong><%= value %></strong> tweets</p>
 
-<% @user_searches.each do |u| %>
+    <% end %>
 
-  <%= u.name %>
+  </div>
 
-<% end %>
+  <div class="tweets-col">
+    <div class="search-header">You have searched for <b><%= params[:q] %></b></div>
+    <strong><%= link_to 'Back to Home page', users_path, method: :get %></strong></br>
 
+    <% if @user_searches.empty? %>
+      <strong>No Users found</strong></br>
+    <% else%>
+      <% @user_searches.each do |u| %>
+        
+        Name: <%= u.name %>
+        @<%= u.handlename %>
+        </br> 
+
+      <% end %>
+    <% end%>
+
+    </br>
+
+    <% if @tweet_searches.empty?%>
+      <strong>No Tweets found</strong>
+    <% else %>
+      Located the following tweets containing <b><%= params[:q] %></b>
+      <% @tweet_searches.each do |s| %> 
+
+        <div class="card">
+          <div class="card-block">
+            <p class="tweet-date"><%= s.created_at.strftime("%a %e %b %Y") %>&nbsp<%= s.created_at.strftime("%I:%M%p") %></p>
+            <p class="tweet-text"><%= s.tweet %></p>  
+          </div>
+          <%= image_tag tweet.image, width: '300em' if s.image? %>
+        </div>  <br />
+
+      <% end %>
+    <% end %>
+
+  </div>
+
+  <div class="nav-col">
+  </br>
+    <p><%= form_tag search_users_path, method: :get, class: 'nav-col-form' do %>
+    <%= text_field_tag :q, params[:q], placeholder: 'Search here', class: 'nav-col-searchbox' %>
+    <%= image_submit_tag('/assets/find.png', class: 'nav-col-searchbutton') %>
+    <% end %></p>
+
+    <div class="dropdown">
+      <button class="dropbtn">Account Options</button>
+      <div class="dropdown-content">
+        <a><%= link_to 'Change password', edit_user_registration_path, method: :get %></a>
+        <a><%= link_to 'Terminate Account', user_path(current_user.id), method: :delete, data: {confirm:"Are you sure?"} %></a>
+        <a><%= link_to('Log out', destroy_user_session_path, method: :delete) %></a>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
