@@ -49,6 +49,7 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
   end
 
+
 private
 
   def user_params
