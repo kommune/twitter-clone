@@ -49,18 +49,18 @@ class TweetsController < ApplicationController
     @like = Like.new(user: current_user, tweet: Tweet.find(params[:id]))
 
     if @like.save
+      redirect_to users_path(current_user)
       flash[:notice] = "Tweet was liked!"
-      redirect_to user_path(@user)
     else
+      redirect_to users_path(current_user)
       flash[:notice] = "Tweet was not liked!"
-      redirect_to user_path(@user)
     end
   end
 
   def dislike
-    @like = Like.find(like_params)
+    @like = Like.find_by(tweet_id: params[:id], user_id: current_user.id)
     @like.destroy
-    redirect_to users_path
+    redirect_to users_path(current_user)
     flash[:alert] = "Tweet was unliked"
   end
 
