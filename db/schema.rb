@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20180220092236) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "likes", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "tweet_id"
+    t.bigint "user_id"
+    t.bigint "tweet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tweet_id"], name: "index_likes_on_tweet_id"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20180220092236) do
   end
 
   create_table "tweets", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.text "tweet", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,4 +53,7 @@ ActiveRecord::Schema.define(version: 20180220092236) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "likes", "tweets"
+  add_foreign_key "likes", "users"
+  add_foreign_key "tweets", "users"
 end
