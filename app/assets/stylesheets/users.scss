@@ -5,16 +5,20 @@
 .user-index-container{
   margin-top: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 2.5fr 0.8fr 1fr;
+  grid-template-columns: 1fr 1fr 2.5fr 1fr 1fr;
   grid-template-areas: "lws avatar tweets navigation rws"
                        "lws trending tweets followers rws"
-}
+                       "lws tws tweets fws rws"
+ }
 
 .avatar-col{
   grid-area: avatar;
   background-color: orange;
   padding: 1em;
   border-radius: 2em;
+  height: 160px;
+  display: flex;
+  justify-content: center;
 }
 
 .avatar-pic{
@@ -41,9 +45,8 @@
   display: grid;
   display: flex;
   justify-content: center;
-  height: 45vh;
-  width: 100vw;
-  margin-top: 15vh;
+  height: 420px;
+  margin-top: 10vh;
   grid-template-columns: 1fr;
   grid-template-areas: "pdetails"
 }
@@ -51,7 +54,7 @@
 .edit-profile-pdetails{
   grid-area: pdetails;
   background-color: orange;
-  padding: 1em;
+  padding: 2em;
   border-radius: 2em;
 }
 
@@ -61,32 +64,25 @@
   padding-right: 1.1em;
 }
 
+.edit-profile-textbox{
+  margin-top: 0.5em;
+  padding: 0.1em;
+  font-size: 1em;
+  font-weight: 500;
+  width: 15em;
+}
+
 .edit-profile-buttons{
-  font-weight: 900;
   height: 2em;
 }
 
 .modal {
   display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.3);
-}
-
-.modal-content {
-  margin: 0 50vw 0 50vw;
-  justify-content: center;
-  display: flex;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .edit-profile-btn{
-  padding: 0.2em 1em 0.2em 1em;
+  padding: 0.2em 1.2em 0.2em 1.2em;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   font-size: 1em;
@@ -97,8 +93,7 @@
 
 .trending-col{
   grid-area: trending;
-  background-color: orange;
-  margin-top: 2vh;
+  background-color: orange; 
   border-radius: 2em;
   padding-bottom: 2em;
 }
@@ -106,7 +101,7 @@
 .trending-col-header{
   margin:0;
   text-align: center;
-  padding: 0.5em;
+  padding: 1em 0 0.5em 0;
   border-top-left-radius: 2em;
   border-top-right-radius: 2em;
 }
@@ -157,6 +152,24 @@
   margin-bottom: 2em;
   border-radius: 2em;
   text-align: center;
+  height: 160px;
+  min-width: 250px;
+}
+
+.nav-col-form{
+  justify-content: center;
+  display: flex;
+}
+
+.nav-col-searchbox{
+  padding: 0.3em;
+  font-size: 1em;
+}
+
+.nav-col-searchbutton{
+  width: 36;
+  height: 36px;
+  padding-left: 0.2em;
 }
 
 /* Dropdown Button */
@@ -209,5 +222,22 @@
 .followers-col {
   grid-area: followers;
   background-color: orange;
-  padding: 1em;
+  padding: 1em 2em 1em 2em;
+  border-radius: 2em;
+  height: 150px;
+  font-size: 1.2em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-trending-col{
+  grid-area: avatar;
+  background-color: orange; 
+  border-radius: 2em;
+  padding-bottom: 2em;
+}
+
+.search-header{
+  color: #43a0e7;
+  font-size: 2em;
+  font-weight: 500;
 }

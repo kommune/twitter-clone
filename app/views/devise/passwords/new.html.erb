@@ -8,11 +8,11 @@
   </div>
 
   <div class="forgetpw-page">
-    <div class="main-page-signup-banner">
+    <div class="main-page-signup-pw-banner">
       <div class="main-page-signup-banner-h2">
-        <h2>Forget your password?</h2>
-        <h3>Please provide your Email address into the textbox below</h3>
-        <h4>Please check your Email for password reset instructions</h4>
+        <h3>Forget your password?</h3>
+        <h4>Please provide your Email address into the textbox below</h4>
+        <h5>Please check your Email for password reset instructions</h5>
 
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
       <%= devise_error_messages! %>
