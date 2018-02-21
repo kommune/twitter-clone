@@ -11,7 +11,8 @@
   </div>
 
   <div class="trending-col">
-    <h3 class="trending-col-header">Trending on Twitta-Sphere</h3>
+  
+    <h5 class="trending-col-header"><strong>Trending on Twitta-Sphere</strong></h5>
     <%trending_array = []
 
       @tweets.each do |tweet|
@@ -52,13 +53,11 @@
 
   </br>
 
-    <%= form_tag search_users_path, method: :get do %>
-    <%= text_field_tag :q, params[:q], placeholder: 'Search here' %>
-    <%= image_submit_tag("/assets/find.png", width: '25', height: '25') %>
-    <% end %>
+    <p><%= form_tag search_users_path, method: :get, class: 'nav-col-form' do %>
+    <%= text_field_tag :q, params[:q], placeholder: 'Search here', class: 'nav-col-searchbox' %>
+    <%= image_submit_tag('/assets/find.png', class: 'nav-col-searchbutton') %>
+    <% end %></p>
 
-    </br>
-    
     <div class="dropdown">
       <button class="dropbtn">Account Options</button>
       <div class="dropdown-content">
@@ -71,7 +70,10 @@
   </div>
 
   <div class="followers-col">
-    <strong>Followers Section</strong>
+    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
+    <strong> Total Following</strong></br>
+    <strong> Total Followers</strong></br>
+    <strong> Total likes</strong></br>
   </div>
 
 
@@ -81,15 +83,12 @@
 <!-- The Modal -->
 <div id="editProfileModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close"></span>  
     <%= render partial: "edit_profile_form" %>
-  </div>
 
 </div>
 
 <script>
+
 // Get the modal
 const modalEdit = document.getElementById('editProfileModal');
 
