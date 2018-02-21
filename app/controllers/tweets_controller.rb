@@ -1,7 +1,7 @@
 class TweetsController < ApplicationController
   
   before_action :authenticate_user!
-  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy, :like]
 
   def index
     @user = current_user
@@ -43,6 +43,25 @@ class TweetsController < ApplicationController
     @tweet.destroy
     redirect_to users_path
     flash[:alert] = "Tweet was deleted"
+  end
+
+  def like
+    @like = Like.new(user: current_user, tweet: Tweet.find(params[:id]))
+
+    if @like.save
+      flash[:notice] = "Tweet was liked!"
+      redirect_to user_path(@user)
+    else
+      flash[:notice] = "Tweet was not liked!"
+      redirect_to user_path(@user)
+    end
+  end
+
+  def dislike
+    @like = Like.find(like_params)
+    @like.destroy
+    redirect_to users_path
+    flash[:alert] = "Tweet was unliked"
   end
 
   private
