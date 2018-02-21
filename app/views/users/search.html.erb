@@ -37,9 +37,11 @@
         Name: <%= u.name %>
         @<%= u.handlename %>
         </br> 
+        <%= u.follower_id %>
 
         <%= form_tag follow_users_path, method: :post do %>
         <%= hidden_field_tag :follow, u.id %>
+        <%= hidden_field_tag :following, current_user.id %>
         <%= submit_tag 'follow' %>
         <% end %>
 

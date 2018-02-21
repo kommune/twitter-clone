@@ -44,16 +44,18 @@ class UsersController < ApplicationController
   end
 
   def search
-    @tweet_searches = Tweet.all.where('tweet LIKE ?', "%#{params[:q]}%")
-    @user_searches = User.where('handlename LIKE ?', "%#{params[:q]}%")
-    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
+    @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%")
+    @tweets = Tweet.where("tweet ILIKE ?", "%#%")
   end
 
   def follow
+    follow = Relationship.new(follower_id: params[:follow], following_id: params[:following])
+    follow.save
+    redirect_to search_users_path
   end
 
 private
-
 
   def user_params
     params.require(:user).permit(:name, :handlename, :email, :img)
