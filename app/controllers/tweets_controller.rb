@@ -46,22 +46,21 @@ class TweetsController < ApplicationController
   end
 
   def like
+    @user = current_user
+    @user_tweets = @user.tweets.all
     @like = Like.new(user: current_user, tweet: Tweet.find(params[:id]))
-
     if @like.save
-      redirect_to users_path(current_user)
-      flash[:notice] = "Tweet was liked!"
-    else
-      redirect_to users_path(current_user)
-      flash[:notice] = "Tweet was not liked!"
+      @like = Like.new
     end
   end
 
   def dislike
+    @user = current_user
+    @user_tweets = @user.tweets.all
     @like = Like.find_by(tweet_id: params[:id], user_id: current_user.id)
-    @like.destroy
-    redirect_to users_path(current_user)
-    flash[:alert] = "Tweet was unliked"
+    if @like.destroy
+      @like = Like.all
+    end
   end
 
   private
@@ -74,4 +73,7 @@ class TweetsController < ApplicationController
     params.require(:tweet).permit(:tweet, :image)
   end
 
+  def like_params
+    params.require(:like).permit(:tweet_id, :user_id)
+  end
 end

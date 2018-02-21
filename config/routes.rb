@@ -8,12 +8,11 @@ Rails.application.routes.draw do
       post :like, on: :member
       delete :dislike, on: :member
     end
+
+    get :search, on: :collection
+    post :follow, on: :collection
   end
 
   resources :tweets
-
-  resources :users do
-    get :search, on: :collection
-  end
   
 end
