@@ -1,14 +1,12 @@
 class Tweet < ApplicationRecord
 
   belongs_to :user
-  has_many :likes
+  has_many :likes, dependent: :destroy
 
-  validates_presence_of :tweet
-#   validates :tweet, :presence => true, :length => { 
-#   :maximum => 140,
-#   :tokenizer => lambda { |str| str.scan(/\w+/) },
-#   :too_long  => "Please limit your tweet to 140 words."
-# }
+  validates :tweet, :presence => true, :length => { 
+  :maximum => 140,
+  :too_long  => "Please limit your tweet to 140 characters."
+}
 
   mount_uploader :image, PhotoUploader
 

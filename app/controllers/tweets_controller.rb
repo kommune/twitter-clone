@@ -15,11 +15,7 @@ class TweetsController < ApplicationController
   def create
     @tweet = current_user.tweets.new(tweet_params)
     if @tweet.save
-      flash[:notice] = "Tweet was successfully created!"
       redirect_to users_path
-    else
-      flash.now[:alert] = "Tweet creation failed"
-      render :new
     end
   end
 
@@ -31,20 +27,15 @@ class TweetsController < ApplicationController
 
   def update
     if @tweet.update(tweet_params)
-      flash[:notice] = "Tweet was successfully updated!"
       redirect_to users_path
-    else
-      flash.now[:alert] = "Tweet failed to update"
-      render :edit
     end
   end
 
   def destroy
     @user = current_user
     @user_tweets = @user.tweets.all
-    @tweet = Tweet.find_by(params[:id], user_id: current_user.id)
+    @tweet = Tweet.find_by(id: params[:id], user_id: current_user.id)
     if @tweet.destroy
-      @tweet.likes.clear
       @tweets = current_user.tweets.all
     end
   end

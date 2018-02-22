@@ -4,6 +4,9 @@
 
   <%= render partial: "trending" %>  
 
+  <div class="textbox-col">
+    <%= render partial: "tweets/typebox" %>
+  </div>
   <div class="tweets-col">
     <% if flash[:notice] %>
       <div class="notice"><%= flash[:notice] %></div>
