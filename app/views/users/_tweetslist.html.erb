@@ -13,7 +13,7 @@
           <%= link_to "Like", like_user_tweet_path(@user, tweet), method: :post, remote: true %>
         <% end %>
         
-        <%= link_to 'Delete', tweet_path(tweet), method: :delete, data: {confirm:"Are you sure?"} %></small></p>
+        <%= link_to 'Delete', tweet_path(tweet), method: :delete, data: {confirm:"Are you sure?"}, remote: true %></small></p>
     </div>
     <%= image_tag tweet.image, width: '300em' if tweet.image? %>
   </div>

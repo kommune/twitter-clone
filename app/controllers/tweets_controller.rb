@@ -40,9 +40,13 @@ class TweetsController < ApplicationController
   end
 
   def destroy
-    @tweet.destroy
-    redirect_to users_path
-    flash[:alert] = "Tweet was deleted"
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweet = Tweet.find_by(params[:id], user_id: current_user.id)
+    if @tweet.destroy
+      @tweet.likes.clear
+      @tweets = current_user.tweets.all
+    end
   end
 
   def like
