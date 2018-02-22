@@ -49,7 +49,6 @@ class UsersController < ApplicationController
   def search
     @user = current_user
     @user_tweets = @user.tweets.all
-    @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
     @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
@@ -110,6 +109,18 @@ class UsersController < ApplicationController
 
      end
   end
+
+  def profile
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+    @ext_user = User.find(params[:ext_id])
+    @ext_tweet = Tweet.where("user_id = ?", @ext_user.id)
+    
+  end
+
 
 private
 
