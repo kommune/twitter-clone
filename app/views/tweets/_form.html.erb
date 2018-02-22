@@ -8,12 +8,15 @@
 <% end %>
 
 <%= form_for @tweet do |f| %>
-  <%= f.label :tweet, "Tweet" %>
-  <%= f.text_field :tweet %>
-  
-  <%= f.label :image, "Photo" %>
-  <%= image_tag @tweet.image, width: '300px' if @tweet.image? %>
-  <%= f.file_field :image %>
+  <%= f.text_area :tweet, :cols => "35", :rows => "5" %>
 
-  <%= f.submit %>
+<%= image_tag @tweet.image, width: '300px' if @tweet.image? %>
+<label class="btn btn-light btn-sm">
+  <%= image_tag "attach.svg" %>    
+  <span style="display:none;">
+    <%= f.file_field :image %>
+  </span>
+</label>
+
+  <%= f.submit :class => "btn btn-primary" %>
 <% end %>

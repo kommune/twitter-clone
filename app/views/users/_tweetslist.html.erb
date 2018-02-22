@@ -2,24 +2,24 @@
 
   <div class="card">
     <div class="card-block">
-      <p class="tweet-date"><%= tweet.created_at.strftime("%a %e %b %Y") %>&nbsp<%= tweet.created_at.strftime("%I:%M%p") %></p>
+      <p class="tweet-date"><strong><%= tweet.created_at.strftime("%a %e %b %Y") %>&nbsp<%= tweet.created_at.strftime("%I:%M%p") %></strong></p>
       <p class="tweet-text"><%= tweet.tweet %></p>
-      <p class="options-text"><small class="text-muted"><%= link_to 'Show', tweet_path(tweet) %>
-        <%= link_to 'Edit', edit_tweet_path(tweet) %>
+
+      <%= image_tag tweet.image, width: '300em' if tweet.image? %>
+      
+      <p class="options-text"><small class="text-muted">
+      <%= link_to 'Reply', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to 'Show', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to 'Delete', tweet_path(tweet), method: :delete, data: {confirm:"Are you sure?"}, remote: true, class: "btn btn-outline-primary btn-sm" %>
         
-        <% if tweet.likes.any? { |like| like.user == current_user } %>
-          <%= link_to "Unlike", dislike_user_tweet_path(@user, tweet), method: :delete, remote: true %>
-        <% else %>
-          <%= link_to "Like", like_user_tweet_path(@user, tweet), method: :post, remote: true %>
-        <% end %>
-        
-        <%= link_to 'Delete', tweet_path(tweet), method: :delete, data: {confirm:"Are you sure?"}, remote: true %></small></p>
+      <% if tweet.likes.any? { |like| like.user == current_user } %>
+        <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, tweet), method: :delete, remote: true %>
+      <% else %>
+        <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, tweet), method: :post, remote: true %>
+      <% end %>
+    </small></p>
     </div>
-    <%= image_tag tweet.image, width: '300em' if tweet.image? %>
   </div>
   <br />
   <% end %>
-
-<br />
-<%= link_to 'New Tweet', new_tweet_path %>
-<%= link_to 'Login', users_path %>
