@@ -5,16 +5,26 @@
   <%= render partial: "trending" %>  
 
   <div class="tweets-col">
-    <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
-    <% end %>
+    <div class="card">
+      <strong>These users are following you</br></strong>
+      <table border="1">
 
-    <% if flash[:alert] %>
-      <div class="alert"><%= flash[:alert] %></div>
-    <% end %>
+        <% @follower_array.each do |f| %>
+        <tr>
+          <td><%= image_tag f[0].img, class: "avatar-pic" %></td>
+          <td><%= f[0].name%></br>
+              @<%= f[0].handlename%></td>
+          <td><%= form_tag unfollow_users_path, method: :post do %>
+          <%= hidden_field_tag :follow, f[0].id %>
+          <%= hidden_field_tag :following, current_user.id %>
+          <%= submit_tag 'unfollow' %>
+          <% end %></td>
 
-    <%= render partial: "tweetslist" %>
+        </tr>
+        <% end %>
 
+      </table>
+    </div>
   </div>
 
   <%= render partial: "navigation" %>
@@ -25,7 +35,6 @@
     <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
     <strong> Total likes</strong></br>
   </div>
-
 
 </div>
 

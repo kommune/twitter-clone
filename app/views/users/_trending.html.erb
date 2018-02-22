@@ -1,0 +1,25 @@
+<div class="trending-col">
+  
+  <h5 class="trending-col-header"><strong>Trending on Twitta-Sphere</strong></h5>
+  <%trending_array = []
+
+    @tweets.each do |tweet|
+      trending_array << tweet.tweet.scan(/#\w+/)
+    end
+      
+    trending_array = trending_array.flatten 
+    trending_hash = Hash.new(0) 
+      
+    trending_array.each do |v|
+      trending_hash[v] += 1
+    end
+      
+    trending_hash.sort.each do |key, value|
+  %>
+
+  <p class="trending-col-k"><strong><%= key %></strong></p>
+  <p class="trending-col-v"><strong><%= value %></strong> tweets</p>
+
+  <% end %>
+
+</div>

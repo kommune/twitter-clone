@@ -4,16 +4,20 @@ Rails.application.routes.draw do
   root "users#index"
 
   resources :users do
+
     resources :tweets do
       post :like, on: :member
       delete :dislike, on: :member
     end
+
+    get :search, on: :collection
+    post :follow, on: :collection
+    post :unfollow, on: :collection
+    get :following, on: :collection
+    get :follower, on: :collection
+
   end
 
   resources :tweets
 
-  resources :users do
-    get :search, on: :collection
-  end
-  
 end
