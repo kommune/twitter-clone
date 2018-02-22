@@ -42,20 +42,21 @@ class TweetsController < ApplicationController
 
   def like
     @user = current_user
-    @user_tweets = @user.tweets.all
+    @user_tweets = @user.tweets.order(created_at: :desc)
     @like = Like.new(user: current_user, tweet: Tweet.find(params[:id]))
     if @like.save
       @like = Like.new
     end
+    @tweet = Tweet.new
+    
   end
 
   def dislike
     @user = current_user
-    @user_tweets = @user.tweets.all
+    @user_tweets = @user.tweets.order(created_at: :desc)
     @like = Like.find_by(tweet_id: params[:id], user_id: current_user.id)
-    if @like.destroy
-      @like = Like.all
-    end
+    @like.destroy
+    @tweet = Tweet.new
   end
 
   private

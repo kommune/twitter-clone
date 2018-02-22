@@ -5,7 +5,7 @@
 .user-index-container{
   margin-top: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 2.5fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
   grid-template-areas: "lws avatar tweets navigation rws"
                        "lws trending tweets followers rws"
                        "lws tws tweets fws rws"
