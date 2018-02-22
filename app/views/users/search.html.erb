@@ -6,66 +6,54 @@
 
   <div class="tweets-col">
     <div class="search-header">You have searched for <b><%= params[:q] %></b></div>
-    <strong><%= link_to 'Back to Home page', users_path, method: :get %></strong></br>
 
     <% if @user_searches.empty? %>
-      <strong>No Users found</strong></br>
+      <strong>No Users found, please try again</strong></br>
     <% else%>
-      <table border="1">
+
+    <% following_array = []%>
+    <% @follower_counter.each do |test| %>
+
+      <% if test.follower_id == current_user.id %>
+
+        <% following_array << test.following_id %>
+
+      <% end %>
+
+    <% end %>
+
+      <table class="result-table">
         
         <% @user_searches.each do |f| %>
           <tr>
-            <td><%= image_tag f.img, class: "avatar-pic" %></td>
-            <td><%= f.name%></br>
-              @<%= f.handlename%></br>
-              <%= f.id%></td>
+            <td class="result-table-td-avatar"><%= image_tag f.img, class: "avatar-pic" %></td>
+            <td class="result-table-td-profile"><div class="result-table-td-name"><%= f.name%></div>
+              @<%= f.handlename%></td>
+            <td align="right" class="result-table-td-follow">
+                <% if following_array.include?(f.id) %>
+                <%= form_tag unfollow_users_path, method: :post do %>
+                <%= hidden_field_tag :follow, current_user.id %>
+                <%= hidden_field_tag :following, f.id %>
+                <%= submit_tag 'Following', class: "following-button" %>
+                <% end %>
+              
+                <% else %>
 
+                <%= form_tag follow_users_path, method: :post do %>
+                <%= hidden_field_tag :follow, current_user.id %>
+                <%= hidden_field_tag :following, f.id.to_s %>
+                <%= submit_tag 'Follow', class: "follow-button" %>
+                <% end %>
+
+                <% end %>
+
+            </td>
+           
           </tr>
 
         <% end %>
 
       </table>
-    
-     <% @follower_counter.each do |x| %>
-
-          <td><b>followers ID: </b><%= x.to_a %></br>
-          <b>following ID: </b><%= x.to_a%></td></br></br>
-          
-          <% end %>
-
-      <% @user_searches.each do |u| %>
-        
-        Name: <%= u.name %>
-        @<%= u.handlename %>
-        <%= u.id %>
-        </br> 
-        
-        <% if u.following_ids %>
-
-          <%= form_tag follow_users_path, method: :post do %>
-          <%= hidden_field_tag :follow, current_user.id %>
-          <%= hidden_field_tag :following, u.id.to_s %>
-          <%= hidden_field_tag :handlename, u.handlename %>
-          <%= submit_tag 'follow' %>
-          <% end %>
-
-        <% else %>
-
-          <%= form_tag unfollow_users_path, method: :post do %>
-          <%= hidden_field_tag :follow, current_user.id %>
-          <%= hidden_field_tag :following, u.id %>
-          <%= hidden_field_tag :handlename, u.handlename %>
-          <%= submit_tag 'unfollow' %>
-          <% end %>
-
-        <% end %>
-
-        </br>
-
-      <% end %>
-
-
-
 
     <% end%>
 
@@ -92,5 +80,45 @@
 
   <%= render partial: "navigation" %> 
 
+ <div class="followers-col">
+    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
+    <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
+    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
+    <strong> Total likes</strong></br>
+  </div>
+
 
 </div>
+
+
+<!-- The Modal -->
+<div id="editProfileModal" class="modal">
+
+    <%= render partial: "edit_profile_form" %>
+
+</div>
+
+<script>
+
+// Get the modal
+const modalEdit = document.getElementById('editProfileModal');
+
+// Get the button that opens the modal
+const btnEdit = document.getElementById("editProfile");
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btnEdit.onclick = function() {
+    modalEdit.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modalEdit) {
+        modalEdit.style.display = "none";
+    }
+}
+
+</script>

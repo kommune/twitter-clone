@@ -251,3 +251,71 @@
   font-size: 2em;
   font-weight: 500;
 }
+
+.result-table{
+  width: 100%;
+}
+
+.result-table-td-avatar{
+  padding: 0.5em;
+  width: 140px;
+}
+
+.result-table-td-profile{
+  padding: 0.5em;
+  width: 140px;
+}
+
+.result-table-td-name{
+  font-size: 1.2em;
+  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.result-table-td-follow{
+  padding: 0.5em;
+}
+
+.follow-button{
+  width: 8em;
+  height: 2em;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #98FB98;
+  border-color: #90EE90;
+  border-radius: 0.5em;
+  border-style: solid;
+}
+
+.following-button{
+  width: 8em;
+  height: 2em;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #B0E0E6;
+  border-color: #89CFF0;
+  border-radius: 0.5em;
+  border-style: solid;
+}
+
+.following-button:hover {
+  background-color: lightcoral;
+  border-color: lightsalmon;
+  content: "Unfollow";
+}
+
+.unfollow-button{
+  width: 8em;
+  height: 2em;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightcoral;
+  border-color: lightsalmon;
+  border-radius: 0.5em;
+  border-style: solid;
+}

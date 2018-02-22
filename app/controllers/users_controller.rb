@@ -46,6 +46,11 @@ class UsersController < ApplicationController
   end
 
   def search
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
     @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
     @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%").where.not(id: current_user.id)
     @tweets = Tweet.where("tweet ILIKE ?", "%#%")
@@ -57,6 +62,8 @@ class UsersController < ApplicationController
       @follower_counter << counter
 
     end
+
+    @follower_counter.flatten!
 
   end
 
