@@ -1,0 +1,19 @@
+<div class="nav-col">
+
+  </br>
+
+  <p><%= form_tag search_users_path, method: :get, class: 'nav-col-form' do %>
+  <%= text_field_tag :q, params[:q], placeholder: 'Search here', class: 'nav-col-searchbox' %>
+  <%= image_submit_tag('/assets/find.png', class: 'nav-col-searchbutton') %>
+  <% end %></p>
+
+  <div class="dropdown">
+    <button class="dropbtn">Account Options</button>
+    <div class="dropdown-content">
+      <a><%= link_to 'Change password', edit_user_registration_path, method: :get %></a>
+      <a><%= link_to 'Terminate Account', user_path(current_user.id), method: :delete, data: {confirm:"Are you sure?"} %></a>
+      <a><%= link_to('Log out', destroy_user_session_path, method: :delete) %></a>
+    </div>
+  </div>
+
+</div>
