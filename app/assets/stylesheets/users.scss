@@ -6,7 +6,7 @@
   margin-top: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 2.5fr 1fr 1fr;
-  grid-template-areas: "lws avatar tweets navigation rws"
+  grid-template-areas: "lws avatar textbox navigation rws"
                        "lws trending tweets followers rws"
                        "lws tws tweets fws rws"
  }
@@ -120,6 +120,14 @@
   margin: 0;
   padding: 0 1.5em 0.5em 1.5em;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.textbox-col{
+  grid-area: textbox;
+  margin: 0 1vw 0 1vw;
+  background-color: white;
+  padding: 1em;
+  border-radius: 2em;
 }
 
 .tweets-col{
