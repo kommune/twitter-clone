@@ -13,7 +13,9 @@
       <div class="alert"><%= flash[:alert] %></div>
     <% end %>
 
-    <%= render partial: "tweetslist" %>
+    <div id = 'tweets_list_table'>
+      <%= render partial: "tweetslist" %>
+    </div>
 
   </div>
 
