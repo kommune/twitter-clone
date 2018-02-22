@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     post :unfollow, on: :collection
     get :following, on: :collection
     get :follower, on: :collection
+    get :profile, on: :collection
 
   end
 
