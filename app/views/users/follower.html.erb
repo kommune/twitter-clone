@@ -7,17 +7,18 @@
   <div class="tweets-col">
     <div class="card">
       <strong>These users are following you</br></strong>
-      <table border="1">
+      <table class="result-table">
 
         <% @follower_array.each do |f| %>
         <tr>
-          <td><%= image_tag f[0].img, class: "avatar-pic" %></td>
-          <td><%= f[0].name%></br>
+          <td class="result-table-td-avatar"><%= image_tag f[0].img, class: "avatar-pic" %></td>
+          <td class="result-table-td-profile"><div class="result-table-td-name"><%= f[0].name%></div>
               @<%= f[0].handlename%></td>
-          <td><%= form_tag unfollow_users_path, method: :post do %>
+          <td align="right" class="result-table-td-follow">
+          <%= form_tag unfollow_users_path, method: :post do %>
           <%= hidden_field_tag :follow, f[0].id %>
           <%= hidden_field_tag :following, current_user.id %>
-          <%= submit_tag 'unfollow' %>
+          <%= submit_tag 'Unfollow', class: "unfollow-button" %>
           <% end %></td>
 
         </tr>
