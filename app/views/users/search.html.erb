@@ -70,7 +70,7 @@
             <p class="tweet-date"><%= s.created_at.strftime("%a %e %b %Y") %>&nbsp<%= s.created_at.strftime("%I:%M%p") %></p>
             <p class="tweet-text"><%= s.tweet %></p>  
           </div>
-          <%= image_tag tweet.image, width: '300em' if s.image? %>
+          <%= image_tag s.image, width: '300em' if s.image? %>
         </div>  <br />
 
       <% end %>
