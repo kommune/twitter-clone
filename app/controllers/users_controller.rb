@@ -6,6 +6,8 @@ class UsersController < ApplicationController
     @user = current_user
     @user_tweets = @user.tweets.all
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
   end
 
   def new
@@ -44,11 +46,62 @@ class UsersController < ApplicationController
   end
 
   def search
-    @tweet_searches = Tweet.all.where('tweet LIKE ?', "%#{params[:q]}%")
-    @user_searches = User.where('handlename LIKE ?', "%#{params[:q]}%")
-    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
+    @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%").where.not(id: current_user.id)
+    @tweets = Tweet.where("tweet ILIKE ?", "%#%")
+
+    @follower_counter = []
+    @user_searches.each do |s|
+
+      counter = Relationship.all.where("following_id = ?", s.id)
+      @follower_counter << counter
+
+    end
+
   end
 
+  def follow
+    follow = Relationship.new(follower_id: params[:follow], following_id: params[:following])
+    follow.save
+    redirect_to following_users_path
+  end
+
+  def unfollow
+    unfollow = Relationship.where("follower_id = ? AND following_id = ?", "#{params[:follow]}", "#{params[:following]}").destroy_all
+    redirect_to following_users_path
+  end
+
+  def following
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+
+      @following_array = []
+      @following.each do |x|
+
+        res = User.where("id = ?", x.following_id)
+        @following_array << res
+
+      end
+  end
+
+  def follower
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+
+      @follower_array = []
+      @follower.each do |y|
+         
+        outcome = User.where("id = ?", y.follower_id)
+        @follower_array << outcome
+
+     end
+  end
 
 private
 
