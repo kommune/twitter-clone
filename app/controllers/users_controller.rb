@@ -7,16 +7,12 @@ class UsersController < ApplicationController
     @user_tweets = current_user.tweets.order(created_at: :desc)
     @tweet = Tweet.new
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
-<<<<<<< Updated upstream
     @following = Relationship.all.where("follower_id = ?", current_user.id)
     @follower = Relationship.all.where("following_id = ?", current_user.id)
-    @like_tweets = Tweet.includes(:likes).where("user_id = ?", current_user.id)
-
-=======
+    # @like_tweets = Tweet.includes(:likes).where("user_id = ?", current_user.id)
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
     @total_like = Like.where("user_id = ?", @user.id)
->>>>>>> Stashed changes
   end
 
   def new
