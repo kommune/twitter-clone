@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180221045643) do
+ActiveRecord::Schema.define(version: 20180222080308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20180221045643) do
     t.index ["follower_id", "following_id"], name: "index_relationships_on_follower_id_and_following_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
     t.index ["following_id"], name: "index_relationships_on_following_id"
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "tweet_id"
+    t.text "reply"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_replies_on_tweet_id"
+    t.index ["user_id", "tweet_id"], name: "index_replies_on_user_id_and_tweet_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -68,5 +79,7 @@ ActiveRecord::Schema.define(version: 20180221045643) do
   add_foreign_key "likes", "users"
   add_foreign_key "relationships", "users", column: "follower_id"
   add_foreign_key "relationships", "users", column: "following_id"
+  add_foreign_key "replies", "tweets"
+  add_foreign_key "replies", "users"
   add_foreign_key "tweets", "users"
 end

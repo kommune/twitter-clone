@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :tweets do
       post :like, on: :member
       delete :dislike, on: :member
+      get :likelist, on: :collection
     end
 
     get :search, on: :collection
@@ -18,6 +19,9 @@ Rails.application.routes.draw do
     get :profile, on: :collection
     get :total_like, on: :collection
 
+    resources :tweets, only: [:index, :show] do
+      resources :replies, only: [:create, :destroy]
+    end
   end
 
   resources :tweets
