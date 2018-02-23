@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id)
   end
 
   def new
@@ -54,6 +55,7 @@ class UsersController < ApplicationController
     @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
     @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%").where.not(id: current_user.id)
     @tweets = Tweet.where("tweet ILIKE ?", "%#%")
+    @total_like = Like.where("user_id = ?", @user.id)
 
     @follower_counter = []
     @user_searches.each do |s|
@@ -84,6 +86,7 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id)
 
       @following_array = []
       @following.each do |x|
@@ -100,6 +103,7 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id)
 
       @follower_array = []
       @follower.each do |y|
@@ -116,11 +120,32 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
-    @ext_user = User.find(params[:ext_id])
+    @total_like = Like.where("user_id = ?", @user.id)
+
+    @ext_user = User.all.find(params[:ext_id])
     @ext_tweet = Tweet.where("user_id = ?", @ext_user.id)
-    
+    @follow_status = params[:follow_status]
   end
 
+  def total_like
+    @user = current_user
+    @user_tweets = @user.tweets.all
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id)
+
+    @like_list = []
+    @total_like.each do |l|
+
+      list = Tweet.includes(:user).where("id = ?", l.tweet_id)
+      @like_list << list
+
+    end
+
+    @like_list.flatten!
+
+  end
 
 private
 
