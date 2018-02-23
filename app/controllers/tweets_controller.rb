@@ -21,6 +21,7 @@ class TweetsController < ApplicationController
 
   def show
     @reply = Reply.new
+    @tweet_user = Tweet.includes(:user).where("id = ?", @tweet.id)
   end
 
   def edit
