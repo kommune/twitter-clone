@@ -1,0 +1,76 @@
+<div class="user-index-container">
+
+  <%= render partial: "avatar" %>  
+
+  <%= render partial: "trending" %>  
+
+  <div class="tweets-col">
+
+    You have liked a total of <strong><%= @total_like.count %></strong> tweets.
+
+    <% @like_list.each do |list| %>
+
+    <div class="card">
+      <div class="card-block">
+        <p class="tweet-date"><strong><%= list.created_at.strftime("%a %e %b %Y") %>&nbsp<%= list.created_at.strftime("%I:%M%p") %></strong></p>
+        <p class="tweet-text"><%= image_tag list.user.img, class: "avatar-pic-for-like" %> <strong>@<%= list.user.handlename %></strong> tweeted: </p>
+        <p class="tweet-text"><%= list.tweet %></p>
+
+        <%= image_tag list.image, width: '300em' if list.image? %>
+
+        <p class="options-text"><small class="text-muted">
+          <%= link_to 'Reply', tweet_path(list), class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to 'Show', tweet_path(list), class: "btn btn-outline-primary btn-sm" %>
+        
+        <% if list.likes.any? { |like| like.user == current_user } %>
+            <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, list), method: :delete, remote: true %>
+          <% else %>
+            <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, list), method: :post, remote: true %>
+          <% end %>
+        </small></p>
+      </div>
+    </div>
+    </br>
+
+    <% end %>
+
+  </div>
+
+  <%= render partial: "navigation" %>
+
+  <%= render partial: "counter" %>
+
+</div>
+
+
+<!-- The Modal -->
+<div id="editProfileModal" class="modal">
+
+    <%= render partial: "edit_profile_form" %>
+
+</div>
+
+<script>
+
+// Get the modal
+const modalEdit = document.getElementById('editProfileModal');
+
+// Get the button that opens the modal
+const btnEdit = document.getElementById("editProfile");
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btnEdit.onclick = function() {
+    modalEdit.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modalEdit) {
+        modalEdit.style.display = "none";
+    }
+}
+
+</script>

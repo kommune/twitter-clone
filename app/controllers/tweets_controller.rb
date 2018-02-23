@@ -51,7 +51,6 @@ class TweetsController < ApplicationController
       @like = Like.new
     end
     @tweet = Tweet.new
-    
   end
 
   def dislike

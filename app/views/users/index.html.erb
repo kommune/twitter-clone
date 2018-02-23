@@ -21,6 +21,7 @@
 
   <%= render partial: "navigation" %>
 
+<<<<<<< Updated upstream
   <div class="followers-col">
     <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
     <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
@@ -28,6 +29,9 @@
     <%= link_to "#{@like_tweets.count} Likes", likelist_user_tweets_path(@user), method: :get %></br>
   </div>
 
+=======
+  <%= render partial: "counter" %>
+>>>>>>> Stashed changes
 
 </div>
 
