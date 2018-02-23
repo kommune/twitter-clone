@@ -6,16 +6,61 @@
 
   <div class="tweets-col">
 
-    Other user profile here</br>
-    <%= @ext_user.name %>
-    <%= @ext_user.id %>
-    </br>
+    You are viewing <strong>@<%= @ext_user.handlename %></strong> profile</br>
+    
+    <table class="result-table">
+      <tr>
+        <td class="result-table-td-avatar"><%= image_tag @ext_user.img, class: "avatar-pic" %></td>
+        <td class="result-table-td-profile"><div class="result-table-td-name"><%= @ext_user.name%></div>
+          @<%= @ext_user.handlename%></td>
+        </td>
 
-    Other user tweets here</br>
+        <td align="right" class="result-table-td-follow">
+          <% if @follow_status.to_i == 1 %>
 
-    <% @ext_tweet.each do |t| %>
+            <%= form_tag unfollow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, current_user.id %>
+            <%= hidden_field_tag :following, @ext_user.id %>
+            <%= submit_tag 'Following', class: "following-button" %>
+            <% end %>
 
-      <%= t.tweet %>
+          <% else %>
+            
+            <%= form_tag follow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, current_user.id %>
+            <%= hidden_field_tag :following, @ext_user.id.to_s %>
+            <%= submit_tag 'Follow', class: "follow-button" %>
+            <% end %>
+
+          <% end %>
+        </td>
+
+      </tr>
+    </table>
+
+    <strong>@<%= @ext_user.handlename %></strong> tweets the following...</br>
+
+    <% @ext_tweet.each do |tweet| %>
+
+      <div class="card">
+        <div class="card-block">
+          <p class="tweet-date"><strong><%= tweet.created_at.strftime("%a %e %b %Y") %>&nbsp<%= tweet.created_at.strftime("%I:%M%p") %></strong></p>
+          <p class="tweet-text"><%= tweet.tweet %></p>
+
+          <%= image_tag tweet.image, width: '300em' if tweet.image? %>
+
+          <p class="options-text"><small class="text-muted">
+          <%= link_to 'Reply', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to 'Show', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+
+          <% if tweet.likes.any? { |like| like.user == current_user } %>
+            <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, tweet), method: :delete, remote: true %>
+          <% else %>
+            <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, tweet), method: :post, remote: true %>
+          <% end %>
+        </small></p>
+        </div>
+      </div>
 
     <% end %>
 
@@ -23,13 +68,7 @@
 
   <%= render partial: "navigation" %>
 
-  <div class="followers-col">
-    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
-    <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
-    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
-    <strong> Total likes</strong></br>
-  </div>
-
+  <%= render partial: "counter" %>
 
 </div>
 

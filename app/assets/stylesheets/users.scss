@@ -29,6 +29,14 @@
   border-radius: 50%;
 }
 
+.avatar-pic-for-like{
+  border: 10px;
+  height: 60px;
+  width: 60px;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
 .avatar-name{
   padding: 0.2em;
   font-size: 1.5em;
@@ -306,6 +314,18 @@
   font-family: Arial, Helvetica, sans-serif;
   background-color: lightcoral;
   border-color: lightsalmon;
+  border-radius: 0.5em;
+  border-style: solid;
+}
+
+.view-profile{
+  width: 6em;
+  height: 2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FED8B1;
+  border-color: #FDBCB4;
   border-radius: 0.5em;
   border-style: solid;
 }

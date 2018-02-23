@@ -17,16 +17,18 @@
               
               <%= form_tag profile_users_path, method: :get do %>
               <%= hidden_field_tag :ext_id, f[0].id %>
-              <%= submit_tag 'View Profile' %>
+              <%= hidden_field_tag :follow_status, 1 %>
+              <%= submit_tag 'View Profile', class: "view-profile" %>
               <% end %>
               
           </td>
           <td align="right" class="result-table-td-follow">
-          <%= form_tag unfollow_users_path, method: :post do %>
-          <%= hidden_field_tag :follow, current_user.id %>
-          <%= hidden_field_tag :following, f[0].id %>
-          <%= submit_tag 'Following', class: "following-button" %>
-          <% end %></td>
+            <%= form_tag unfollow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, current_user.id %>
+            <%= hidden_field_tag :following, f[0].id %>
+            <%= submit_tag 'Following', class: "following-button" %>
+            <% end %>
+          </td>
           
         </tr>
         <% end %>
@@ -37,13 +39,7 @@
 
   <%= render partial: "navigation" %>
 
-  <div class="followers-col">
-    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
-    <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
-    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
-    <strong> Total likes</strong></br>
-  </div>
-
+  <%= render partial: "counter" %>
 
 </div>
 

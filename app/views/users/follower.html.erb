@@ -13,13 +13,22 @@
         <tr>
           <td class="result-table-td-avatar"><%= image_tag f[0].img, class: "avatar-pic" %></td>
           <td class="result-table-td-profile"><div class="result-table-td-name"><%= f[0].name%></div>
-              @<%= f[0].handlename%></td>
+              @<%= f[0].handlename%>
+              
+              <%= form_tag profile_users_path, method: :get do %>
+              <%= hidden_field_tag :ext_id, f[0].id %>
+              <%= hidden_field_tag :follow_status, 1 %>
+              <%= submit_tag 'View Profile', class: "view-profile" %>
+              <% end %>
+              
+          </td>
           <td align="right" class="result-table-td-follow">
-          <%= form_tag unfollow_users_path, method: :post do %>
-          <%= hidden_field_tag :follow, f[0].id %>
-          <%= hidden_field_tag :following, current_user.id %>
-          <%= submit_tag 'Unfollow', class: "unfollow-button" %>
-          <% end %></td>
+            <%= form_tag unfollow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, f[0].id %>
+            <%= hidden_field_tag :following, current_user.id %>
+            <%= submit_tag 'Unfollow', class: "unfollow-button" %>
+            <% end %>
+          </td>
 
         </tr>
         <% end %>
@@ -30,12 +39,7 @@
 
   <%= render partial: "navigation" %>
 
-  <div class="followers-col">
-    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
-    <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
-    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
-    <strong> Total likes</strong></br>
-  </div>
+  <%= render partial: "counter" %>
 
 </div>
 

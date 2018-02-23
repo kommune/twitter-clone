@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     get :following, on: :collection
     get :follower, on: :collection
     get :profile, on: :collection
+    get :total_like, on: :collection
 
   end
 
