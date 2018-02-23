@@ -28,16 +28,29 @@
           <tr>
             <td class="result-table-td-avatar"><%= image_tag f.img, class: "avatar-pic" %></td>
             <td class="result-table-td-profile"><div class="result-table-td-name"><%= f.name%></div>
-              @<%= f.handlename%></td>
-            <td align="right" class="result-table-td-follow">
+              @<%= f.handlename%>
+              
+              <%= form_tag profile_users_path, method: :get do %>
+              <%= hidden_field_tag :ext_id, f.id %>
                 <% if following_array.include?(f.id) %>
+                  <%= hidden_field_tag :follow_status, 1 %>
+                <% else %>
+                  <%= hidden_field_tag :follow_status, 0 %>
+                <% end %>
+              <%= submit_tag 'View Profile', class: "view-profile" %>
+              <% end %>
+              
+            </td>
+            <td align="right" class="result-table-td-follow">
+              <% if following_array.include?(f.id) %>
+              
                 <%= form_tag unfollow_users_path, method: :post do %>
                 <%= hidden_field_tag :follow, current_user.id %>
                 <%= hidden_field_tag :following, f.id %>
                 <%= submit_tag 'Following', class: "following-button" %>
                 <% end %>
               
-                <% else %>
+              <% else %>
 
                 <%= form_tag follow_users_path, method: :post do %>
                 <%= hidden_field_tag :follow, current_user.id %>
@@ -45,7 +58,7 @@
                 <%= submit_tag 'Follow', class: "follow-button" %>
                 <% end %>
 
-                <% end %>
+              <% end %>
 
             </td>
            
@@ -80,13 +93,7 @@
 
   <%= render partial: "navigation" %> 
 
- <div class="followers-col">
-    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
-    <%= link_to "Following #{@following.count} user", following_users_path, method: :get %></br>
-    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
-    <strong> Total likes</strong></br>
-  </div>
-
+  <%= render partial: "counter" %>
 
 </div>
 

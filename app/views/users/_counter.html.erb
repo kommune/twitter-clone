@@ -1,0 +1,6 @@
+<div class="followers-col">
+    <%= link_to "#{@user_tweets.count} Tweets", users_path, method: :get %></br>
+    <%= link_to "#{@following.count} Following", following_users_path, method: :get %></br>
+    <%= link_to "#{@follower.count} Followers", follower_users_path, method: :get %></br>
+    <%= link_to "#{@total_like.count} Likes", total_like_users_path, method: :get %></br>
+  </div>
