@@ -6,6 +6,7 @@ class TweetsController < ApplicationController
   def index
     @user = current_user
     @user_tweets = @user.tweets.order(created_at: :desc)
+    @tweet = Tweet.new
   end
 
   def new
