@@ -4,11 +4,13 @@ class UsersController < ApplicationController
   
   def index
     @user = current_user
-    @user_tweets = @user.tweets.order(created_at: :desc)
+    @user_tweets = current_user.tweets.order(created_at: :desc)
     @tweet = Tweet.new
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
+    @following = Relationship.all.where("follower_id = ?", current_user.id)
+    @follower = Relationship.all.where("following_id = ?", current_user.id)
+    @like_tweets = Tweet.includes(:likes).where("user_id = ?", current_user.id)
+
   end
 
   def new

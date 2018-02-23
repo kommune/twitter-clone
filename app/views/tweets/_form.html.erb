@@ -1,4 +1,4 @@
-<%= form_for @tweet do |f| %>
+<%= form_for @tweet, url: user_tweets_path(current_user), method: :post do |f| %>
   <%= f.text_area :tweet, :cols => "43", :rows => "5", placeholder: "Enter your tweet here..." %>
 
 <%= image_tag @tweet.image, width: '300px' if @tweet.image? %>

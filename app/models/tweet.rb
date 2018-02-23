@@ -2,6 +2,7 @@ class Tweet < ApplicationRecord
 
   belongs_to :user
   has_many :likes, dependent: :destroy
+  has_many :replies, dependent: :destroy
 
   validates :tweet, :presence => true, :length => { 
   :maximum => 140,

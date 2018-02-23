@@ -5,7 +5,7 @@ class TweetsController < ApplicationController
 
   def index
     @user = current_user
-    @user_tweets = @user.tweets.all
+    @user_tweets = @user.tweets.order(created_at: :desc)
   end
 
   def new
@@ -20,9 +20,11 @@ class TweetsController < ApplicationController
   end
 
   def show
+    @reply = Reply.new
   end
 
   def edit
+    
   end
 
   def update
@@ -33,11 +35,12 @@ class TweetsController < ApplicationController
 
   def destroy
     @user = current_user
-    @user_tweets = @user.tweets.all
+    @user_tweets = @user.tweets.order(created_at: :desc)
     @tweet = Tweet.find_by(id: params[:id], user_id: current_user.id)
     if @tweet.destroy
-      @tweets = current_user.tweets.all
+      @tweets = current_user.tweets.order(created_at: :desc)
     end
+    @tweet = Tweet.new
   end
 
   def like
@@ -59,6 +62,15 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+  def likelist
+    @user = current_user
+    @user_tweets = @user.tweets.order(created_at: :desc)
+    @tweets = Tweet.where("tweet LIKE ?", "%#%")
+    @like_tweets = Tweet.includes(:likes).where("user_id = ?", current_user.id)
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+  end
+  
   private
 
   def set_tweet 
