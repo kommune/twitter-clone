@@ -7,11 +7,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.row-replies{
+ }
+ 
+ .row-replies{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-}
+ }
+ 
+ .reply-tweet-user-p{
+  display: flex;
+  text-align: left;
+  width: 80%;
+  padding: 0.5em;
+ }
+ 
+ .reply-tweet-user-avatar{
+  width: 80px;
+ }

@@ -1,10 +1,23 @@
 <div class="container">
-  <div class="row">
+  <div class="row form-replies">
+   <div class="reply-tweet-user-p">
+     <table width: "100vw">
+       <% @tweet_user.each do |u| %>
+         <tr>
+           <td class="reply-tweet-user-avatar"><%= image_tag u.user.img, class: "avatar-pic-for-like" %></td>
+           <td><strong><%= u.user.name %></strong></br>
+             @<%= u.user.handlename %></td>
+         </tr>
+         <tr>
+           <td colspan="2"><strong>Tweets: </strong><%= @tweet.tweet %><br>
+           <%= image_tag @tweet.image, width: '500px' %>
+           </td>
+         </tr>
 
-    User ID: <%= @tweet.user_id %>
-    Tweet: <%= @tweet.tweet %><br>
-    <%= image_tag @tweet.image, width: '500px' %>
-    <br />
+         <% end %>
+             
+      </table>
+    </div>
   </div>
   
   <div class="row form-replies">
@@ -27,6 +40,7 @@
       <% if current_user %>
         <%= link_to "Delete", user_tweet_reply_path(current_user, @tweet, reply), method: :delete %>
       <% end %>
+      <br />
     <% end%>
   </div>
 <br />
