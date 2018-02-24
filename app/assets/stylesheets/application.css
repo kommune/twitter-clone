@@ -138,3 +138,7 @@
   border-radius: 1em;
   width: 28vw;
 }
+
+.empty-record{
+  text-align: center;
+}

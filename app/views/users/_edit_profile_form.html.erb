@@ -1,4 +1,5 @@
-<div class="edit-profile-container">
+<div id="editProfileModal" class="modal">
+  <div class="edit-profile-container">
 
   <div class="edit-profile-pdetails">
     <h1 align="center"><u>Edit profile details</u></h1>
@@ -7,8 +8,12 @@
     
     <table>
       <tr>
-        <td><h2>Select a new Avatar</h2><div class="edit-profile-buttons"><%= f.file_field :img, class: "edit-profile-buttons" %></div></td>
-        <td><%= image_tag @user.img, class: "avatar-pic" if @user.img? %></br></td>
+        <td><h2>Select a new Avatar</h2><%= f.file_field :img, class: "edit-profile-buttons" %></td>
+        <% if @user.img? %>
+          <td><%= image_tag @user.img, class: "edit-profile-pic" if @user.img? %></br></td>
+        <% else %>
+          <td><%= image_tag('/assets/MissingProfile.jpg', class: "edit-profile-pic") %></td>
+        <% end %>
       </tr>
     </table>
     
@@ -41,10 +46,36 @@
        </tr>
     </table></br>
 
-    <%= f.submit %>
+    <%= f.submit class: "edit-profile-btn" %>
 
     <% end %>
     
   </div>
 
+  </div>
 </div>
+
+<script>
+
+// Get the modal
+const modalEdit = $('#editProfileModal')[0];
+
+// Get the button that opens the modal
+const btnEdit = $('#editProfile')[0];
+
+// Get the <span> element that closes the modal
+const span = $('#close');
+
+// When the user clicks the button, open the modal 
+btnEdit.onclick = () => {
+    modalEdit.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = (event) => {
+    if (event.target == modalEdit) {
+        modalEdit.style.display = "none";
+    }
+}
+
+</script>

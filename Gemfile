@@ -20,6 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise'
 # Use jQuery
 # gem 'jquery-rails'
+gem 'jquery-rails'
 # Use Carrier Wave to add images
 gem 'carrierwave'
 # See https://github.com/rails/execjs#readme for more supported runtimes

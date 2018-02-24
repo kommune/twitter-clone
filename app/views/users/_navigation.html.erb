@@ -3,7 +3,7 @@
   </br>
 
   <p><%= form_tag search_users_path, method: :get, class: 'nav-col-form' do %>
-  <%= text_field_tag :q, params[:q], placeholder: 'Search here', class: 'nav-col-searchbox' %>
+  <%= text_field_tag :q, params[:q], placeholder: 'Empty search finds all', class: 'nav-col-searchbox' %>
   <%= image_submit_tag('/assets/find.png', class: 'nav-col-searchbutton') %>
   <% end %></p>
 

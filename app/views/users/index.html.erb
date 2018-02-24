@@ -25,35 +25,4 @@
 
 </div>
 
-
-<!-- The Modal -->
-<div id="editProfileModal" class="modal">
-
-    <%= render partial: "edit_profile_form" %>
-
-</div>
-
-<script>
-
-// Get the modal
-const modalEdit = document.getElementById('editProfileModal');
-
-// Get the button that opens the modal
-const btnEdit = document.getElementById("editProfile");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btnEdit.onclick = function() {
-    modalEdit.style.display = "block";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modalEdit) {
-        modalEdit.style.display = "none";
-    }
-}
-
-</script>
+  <%= render partial: "edit_profile_form" %>

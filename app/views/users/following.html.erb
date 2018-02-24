@@ -6,12 +6,22 @@
 
   <div class="tweets-col">
     <div class="card">
-      <strong>You are following these Users</br></strong>
+      <% if @following_array.count == 0 %>
+        <div class="search-header">You are following nobody</div>
+      <% elsif @following_array.count == 1 %>
+        <div class="search-header">You are following 1 user</div>
+      <% else %>
+        <div class="search-header">You are following <%= @following_array.count %> users</div>
+      <% end %>
       <table class="result-table">
 
         <% @following_array.each do |f| %>
         <tr>
-          <td class="result-table-td-avatar"><%= image_tag f[0].img, class: "avatar-pic" %></td>
+          <% if f[0].img? %>
+            <td class="result-table-td-avatar"><%= image_tag f[0].img, class: "avatar-pic" %></td>
+          <% else %>
+            <td class="result-table-td-avatar"><%= image_tag('/assets/MissingProfile.jpg', class: "avatar-pic") %></td>
+          <% end %>
           <td class="result-table-td-profile"><div class="result-table-td-name"><%= f[0].name%></div>
               @<%= f[0].handlename%>
               
@@ -43,35 +53,4 @@
 
 </div>
 
-
-<!-- The Modal -->
-<div id="editProfileModal" class="modal">
-
-    <%= render partial: "edit_profile_form" %>
-
-</div>
-
-<script>
-
-// Get the modal
-const modalEdit = document.getElementById('editProfileModal');
-
-// Get the button that opens the modal
-const btnEdit = document.getElementById("editProfile");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btnEdit.onclick = function() {
-    modalEdit.style.display = "block";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modalEdit) {
-        modalEdit.style.display = "none";
-    }
-}
-
-</script>
+  <%= render partial: "edit_profile_form" %>

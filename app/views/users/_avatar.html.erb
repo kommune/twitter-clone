@@ -1,10 +1,14 @@
 <div class="avatar-col">
     <table>
       <tr>  
-        <td><%= image_tag current_user.img, class: "avatar-pic" %></td>
+        <% if current_user.img? %>
+          <td class="avatar-pic-pos"><%= image_tag current_user.img, class: "avatar-pic" %></td>
+        <% else %>
+          <td class="avatar-pic-pos"><%= image_tag('/assets/MissingProfile.jpg', class: "avatar-pic") %></td>
+        <% end %>
         <td><strong class="avatar-name"><%= current_user.name %></strong></br>
-        <div class="avatar-handlename">@<%= current_user.handlename%></div></br>
-        <button id="editProfile" class="edit-profile-btn">Edit Profile</button></td>
+        <div class="avatar-handlename">@<%= current_user.handlename%></div>
+        <button id="editProfile" class="edit-profile-btn">Update</button></td>
       </tr>
     </table>
   </div>

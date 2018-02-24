@@ -55,7 +55,7 @@ class UsersController < ApplicationController
     @user_tweets = @user.tweets.all
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
-    @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%")
+    @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%").order(created_at: :desc)
     @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%").where.not(id: current_user.id)
     @tweets = Tweet.where("tweet ILIKE ?", "%#%")
     @total_like = Like.where("user_id = ?", @user.id)
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
     @tweets = Tweet.where("tweet LIKE ?", "%#%")
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id).order(created_at: :desc)
 
     @like_list = []
     @total_like.each do |l|

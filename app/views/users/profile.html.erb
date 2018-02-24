@@ -6,11 +6,15 @@
 
   <div class="tweets-col">
 
-    You are viewing <strong>@<%= @ext_user.handlename %></strong> profile</br>
-    
+    <div class="search-header">Viewing <strong><%= @ext_user.name %></strong> @<%= @ext_user.handlename %> profile</div>
+   
     <table class="result-table">
       <tr>
-        <td class="result-table-td-avatar"><%= image_tag @ext_user.img, class: "avatar-pic" %></td>
+        <% if @ext_user.img? %>
+          <td class="result-table-td-avatar"><%= image_tag @ext_user.img, class: "avatar-pic" %></td>
+        <% else %>
+          <td class="result-table-td-avatar"><%= image_tag('/assets/MissingProfile.jpg', class: "avatar-pic") %></td>
+        <% end %>
         <td class="result-table-td-profile"><div class="result-table-td-name"><%= @ext_user.name%></div>
           @<%= @ext_user.handlename%></td>
         </td>
@@ -38,27 +42,40 @@
       </tr>
     </table>
 
-    <strong>@<%= @ext_user.handlename %></strong> tweets the following...</br>
+    <div class="search-header">Tweets</div>
+
+    <% if @ext_tweet.count == 0 %>
+      <div class="empty-record"> No Tweets found, <strong><%= @ext_user.name %></strong> @<%= @ext_user.handlename %> has not started Tweeting </div>
+    <% end %>
 
     <% @ext_tweet.each do |tweet| %>
 
       <div class="card">
         <div class="card-block">
-          <p class="tweet-date"><strong><%= tweet.created_at.strftime("%a %e %b %Y") %>&nbsp<%= tweet.created_at.strftime("%I:%M%p") %></strong></p>
-          <p class="tweet-text"><%= tweet.tweet %></p>
+          <table>
+            <tr>
+              <td class="tweet-pic-align">
+                <%= image_tag tweet.user.img, class: "avatar-pic-for-like" %>
+              </td>
 
-          <%= image_tag tweet.image, width: '300em' if tweet.image? %>
+              <td class="tweet-details-align">
+                <strong><%= tweet.user.name %></strong> <span class="tweet-name">@<%= tweet.user.handlename %>  · <%= tweet.created_at.strftime("%e %b") %> </span></br>
+                <%= tweet.tweet %></br>
+                <%= image_tag tweet.image, width: '300em' if tweet.image? %></br>
+                <p class="options">
+                  <%= link_to 'Reply', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+                  <%= link_to 'Show', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
+                
+                <% if tweet.likes.any? { |like| like.user == current_user } %>
+                  <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, tweet), method: :delete, remote: true %>
+                <% else %>
+                  <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, tweet), method: :post, remote: true %>
+                <% end %>
+                </p>
+              </td>
 
-          <p class="options-text"><small class="text-muted">
-          <%= link_to 'Reply', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
-          <%= link_to 'Show', tweet_path(tweet), class: "btn btn-outline-primary btn-sm" %>
-
-          <% if tweet.likes.any? { |like| like.user == current_user } %>
-            <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, tweet), method: :delete, remote: true %>
-          <% else %>
-            <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, tweet), method: :post, remote: true %>
-          <% end %>
-        </small></p>
+            </tr>
+          </table>
         </div>
       </div>
 
@@ -72,35 +89,4 @@
 
 </div>
 
-
-<!-- The Modal -->
-<div id="editProfileModal" class="modal">
-
-    <%= render partial: "edit_profile_form" %>
-
-</div>
-
-<script>
-
-// Get the modal
-const modalEdit = document.getElementById('editProfileModal');
-
-// Get the button that opens the modal
-const btnEdit = document.getElementById("editProfile");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btnEdit.onclick = function() {
-    modalEdit.style.display = "block";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modalEdit) {
-        modalEdit.style.display = "none";
-    }
-}
-
-</script>
+  <%= render partial: "edit_profile_form" %>
