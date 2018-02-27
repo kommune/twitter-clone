@@ -5,107 +5,14 @@
   <%= render partial: "trending" %>  
 
   <div class="tweets-col">
-    <% if @user_searches.empty? %>
-      <div class="search-header">No users found, please try again</div>
-    <% else%>
-      <div class="search-header">Search has retrieved the following users</div>
-
-    <% following_array = []%>
-    <% @follower_counter.each do |test| %>
-
-      <% if test.follower_id == current_user.id %>
-        <% following_array << test.following_id %>
-      <% end %>
-
-    <% end %>
-
-      <table class="result-table">
-        
-        <% @user_searches.each do |f| %>
-          <tr>
-            <% if f.img? %>
-              <td class="result-table-td-avatar"><%= image_tag f.img, class: "avatar-pic" %></td>
-            <% else %>
-              <td class="result-table-td-avatar"><%= image_tag('/assets/MissingProfile.jpg', class: "avatar-pic") %></td>
-            <% end %>
-            <td class="result-table-td-profile"><div class="result-table-td-name"><%= f.name%></div>
-              @<%= f.handlename%>
-              
-              <%= form_tag profile_users_path, method: :get do %>
-              <%= hidden_field_tag :ext_id, f.id %>
-                <% if following_array.include?(f.id) %>
-                  <%= hidden_field_tag :follow_status, 1 %>
-                <% else %>
-                  <%= hidden_field_tag :follow_status, 0 %>
-                <% end %>
-              <%= submit_tag 'View Profile', class: "view-profile" %>
-              <% end %>
-            </td>
-
-            <td align="right" class="result-table-td-follow">
-              <% if following_array.include?(f.id) %>
-                <%= form_tag unfollow_users_path, method: :post do %>
-                <%= hidden_field_tag :follow, current_user.id %>
-                <%= hidden_field_tag :following, f.id %>
-                <%= submit_tag 'Following', class: "following-button" %>
-                <% end %>
-              <% else %>
-                <%= form_tag follow_users_path, method: :post do %>
-                <%= hidden_field_tag :follow, current_user.id %>
-                <%= hidden_field_tag :following, f.id.to_s %>
-                <%= submit_tag 'Follow', class: "follow-button" %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-
-        <% end %>
-
-      </table>
-
-    <% end%>
+    
+    <%= render partial: "search_user" %>
 
     </br>
 
-    <% if @tweet_searches.empty?%>
-      <div class="search-header">No Tweets found, please try again</div>
-    <% else %>
-      <div class="search-header">Search has retrieved the following Tweets</div>
-      <% @tweet_searches.each do |s| %> 
-
-        <div class="card">
-          <div class="card-block">
-            <table>
-              <tr>
-                <td class="tweet-pic-align">
-                  <%= image_tag s.user.img, class: "avatar-pic-for-like" %>
-                </td>
-
-                <td class="tweet-details-align">
-                  <strong><%= s.user.name %></strong> <span class="tweet-name">@<%= s.user.handlename %>  · <%= s.created_at.strftime("%e %b") %> </span></br>
-                  <%= s.tweet %></br>
-                  <%= image_tag s.image, width: '300em' if s.image? %></br>
-                  <p class="options">
-                    <%= link_to 'Reply', tweet_path(s), class: "btn btn-outline-primary btn-sm" %>
-                    <%= link_to 'Show', tweet_path(s), class: "btn btn-outline-primary btn-sm" %>
-                    <% if s.user.id == current_user.id %>
-                      <%= link_to 'Edit', edit_tweet_path(s), class: "btn btn-outline-primary btn-sm" %>
-                      <%= link_to 'Delete', tweet_path(s), method: :delete, data: {confirm:"Are you sure?"}, remote: true, class: "btn btn-outline-primary btn-sm" %>
-                    <% end %>
-                  <% if s.likes.any? { |like| like.user == current_user } %>
-                    <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, s), method: :delete, remote: true %>
-                  <% else %>
-                    <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, s), method: :post, remote: true %>
-                  <% end %>
-                  </p>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-
-      <% end %>
-    <% end %>
+  <div id = "tweets_list_table">
+    <%= render partial: "search_tweet" %>
+  </div>
 
   </div>
 

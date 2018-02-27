@@ -1,0 +1,59 @@
+<% if @user_searches.empty? %>
+  <div class="search-header">No users found, please try again</div>
+<% else%>
+  <div class="search-header">Search has retrieved the following users</div>
+
+  <% following_array = []%>
+  <% @follower_counter.each do |test| %>
+
+    <% if test.follower_id == current_user.id %>
+      <% following_array << test.following_id %>
+    <% end %>
+
+  <% end %>
+
+  <table class="result-table">
+
+    <% @user_searches.each do |f| %>
+      <tr>
+        <% if f.img? %>
+          <td class="result-table-td-avatar"><%= image_tag f.img, class: "avatar-pic" %></td>
+        <% else %>
+          <td class="result-table-td-avatar"><%= image_tag('/assets/MissingProfile.jpg', class: "avatar-pic") %></td>
+        <% end %>
+        <td class="result-table-td-profile"><div class="result-table-td-name"><%= f.name%></div>
+          @<%= f.handlename%>
+
+          <%= form_tag profile_users_path, method: :get do %>
+          <%= hidden_field_tag :ext_id, f.id %>
+            <% if following_array.include?(f.id) %>
+              <%= hidden_field_tag :follow_status, 1 %>
+            <% else %>
+              <%= hidden_field_tag :follow_status, 0 %>
+            <% end %>
+          <%= submit_tag 'View Profile', class: "view-profile" %>
+          <% end %>
+        </td>
+
+        <td align="right" class="result-table-td-follow">
+          <% if following_array.include?(f.id) %>
+            <%= form_tag unfollow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, current_user.id %>
+            <%= hidden_field_tag :following, f.id %>
+            <%= submit_tag 'Following', class: "following-button" %>
+            <% end %>
+          <% else %>
+            <%= form_tag follow_users_path, method: :post do %>
+            <%= hidden_field_tag :follow, current_user.id %>
+            <%= hidden_field_tag :following, f.id.to_s %>
+            <%= submit_tag 'Follow', class: "follow-button" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+
+  	<% end %>
+
+	</table>
+
+<% end%>
