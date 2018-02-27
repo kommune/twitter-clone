@@ -158,16 +158,6 @@ class UsersController < ApplicationController
     end
   end
 
-private
-
-  def user_params
-    params.require(:user).permit(:name, :handlename, :email, :img)
-  end
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
   def trending_tweets
     @trending = Hashtag.select(:id, :hashtag)
 
@@ -184,6 +174,16 @@ private
     @following = Relationship.all.where("follower_id = ?", @user.id)
     @follower = Relationship.all.where("following_id = ?", @user.id)
     @total_like = Like.where("user_id = ?", @user.id)
+  end
+
+private
+
+  def user_params
+    params.require(:user).permit(:name, :handlename, :email, :img)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
 end
