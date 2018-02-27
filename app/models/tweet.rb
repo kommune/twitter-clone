@@ -4,8 +4,8 @@ class Tweet < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :replies, dependent: :destroy
 
-  has_many :hashtagstweets
-  has_many :hashtags, through: :hashtagstweets
+  has_many :hashtagstweets, dependent: :destroy
+  has_many :hashtags, through: :hashtagstweets, dependent: :destroy
 
   validates :tweet, :presence => true, :length => { 
   :maximum => 140,
