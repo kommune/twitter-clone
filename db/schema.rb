@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222080308) do
+ActiveRecord::Schema.define(version: 20180227045848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hashtags", force: :cascade do |t|
+    t.string "hashtag", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hashtag"], name: "index_hashtags_on_hashtag", unique: true
+  end
+
+  create_table "hashtagstweets", force: :cascade do |t|
+    t.bigint "tweet_id"
+    t.bigint "hashtag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hashtag_id"], name: "index_hashtagstweets_on_hashtag_id"
+    t.index ["tweet_id", "hashtag_id"], name: "index_hashtagstweets_on_tweet_id_and_hashtag_id", unique: true
+    t.index ["tweet_id"], name: "index_hashtagstweets_on_tweet_id"
+  end
 
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id"
@@ -75,6 +92,8 @@ ActiveRecord::Schema.define(version: 20180222080308) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "hashtagstweets", "hashtags"
+  add_foreign_key "hashtagstweets", "tweets"
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
   add_foreign_key "relationships", "users", column: "follower_id"

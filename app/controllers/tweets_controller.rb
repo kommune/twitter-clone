@@ -13,11 +13,23 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
-  def create #here
+  def create
+
     @tweet = current_user.tweets.new(tweet_params)
     if @tweet.save
+
+      @hashtag = params[:tweet].to_s.downcase.scan(/#\w+/)
+      @hashtag.each do |h|
+  
+        @hashtag_search = Hashtag.find_or_create_by(hashtag: h)
+        Hashtagstweet.create(tweet: @tweet, hashtag: @hashtag_search)
+
+      end
+
       redirect_to users_path
+
     end
+    
   end
 
   def show
@@ -61,15 +73,6 @@ class TweetsController < ApplicationController
     @like = Like.find_by(tweet_id: params[:id], user_id: current_user.id)
     @like.destroy
     @tweet = Tweet.new
-  end
-
-  def likelist
-    @user = current_user
-    @user_tweets = @user.tweets.order(created_at: :desc)
-    @tweets = Tweet.where("tweet LIKE ?", "%#%")
-    @like_tweets = Tweet.includes(:likes).where("user_id = ?", current_user.id)
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
   end
   
   private
