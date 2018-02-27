@@ -6,14 +6,9 @@ class UsersController < ApplicationController
     @user = current_user
     @user_tweets = current_user.tweets.order(created_at: :desc)
     @tweet = Tweet.new
-    @following = Relationship.all.where("follower_id = ?", current_user.id)
-    @follower = Relationship.all.where("following_id = ?", current_user.id)
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id)
 
+    follow_following_like
     trending_tweets
-
   end
 
   def new
@@ -54,8 +49,10 @@ class UsersController < ApplicationController
   def search
     @user = current_user
     @user_tweets = @user.tweets.all
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
+
+    follow_following_like
+    trending_tweets
+
     @tweet_searches = Tweet.all.where('tweet ILIKE ?', "%#{params[:q]}%").order(created_at: :desc)
     @user_searches = User.all.where('handlename ILIKE ?', "%#{params[:q]}%").where.not(id: current_user.id)
     @total_like = Like.where("user_id = ?", @user.id)
@@ -67,11 +64,7 @@ class UsersController < ApplicationController
       @follower_counter << counter
 
     end
-
     @follower_counter.flatten!
-
-    trending_tweets
-
   end
 
   def follow
@@ -88,28 +81,25 @@ class UsersController < ApplicationController
   def following
     @user = current_user
     @user_tweets = @user.tweets.all
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id)
 
-      @following_array = []
-      @following.each do |x|
+    follow_following_like
+    trending_tweets
 
-        res = User.where("id = ?", x.following_id)
-        @following_array << res
+    @following_array = []
+    @following.each do |x|
 
-      end
+      res = User.where("id = ?", x.following_id)
+      @following_array << res
 
-      trending_tweets
-
+    end
   end
 
   def follower
     @user = current_user
     @user_tweets = @user.tweets.all
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id)
+
+    follow_following_like
+    trending_tweets
 
       @follower_array = []
       @follower.each do |y|
@@ -118,32 +108,26 @@ class UsersController < ApplicationController
         @follower_array << outcome
 
      end
-
-     trending_tweets
-
   end
 
   def profile
     @user = current_user
     @user_tweets = @user.tweets.all
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id)
+
+    follow_following_like
+    trending_tweets
 
     @ext_user = User.all.find(params[:ext_id])
     @ext_tweet = Tweet.where("user_id = ?", @ext_user.id)
     @follow_status = params[:follow_status]
-
-    trending_tweets
-    
   end
 
   def total_like
     @user = current_user
     @user_tweets = @user.tweets.all
-    @following = Relationship.all.where("follower_id = ?", @user.id)
-    @follower = Relationship.all.where("following_id = ?", @user.id)
-    @total_like = Like.where("user_id = ?", @user.id).order(created_at: :desc)
+
+    follow_following_like
+    trending_tweets
 
     @like_list = []
     @total_like.each do |l|
@@ -152,11 +136,26 @@ class UsersController < ApplicationController
       @like_list << list
 
     end
-
     @like_list.flatten!
+  end
 
+  def hashtag
+    @user = current_user
+    @user_tweets = current_user.tweets.order(created_at: :desc)
+    @tweet = Tweet.new
+
+    follow_following_like
     trending_tweets
 
+    @hashtag_name = params[:hashtag_name]
+    @hashtag = Hashtagstweet.where(hashtag_id: params[:hashtag_id]).order(created_at: :desc)
+    
+    @hashtag_user = []
+    @hashtag.each do |h|
+
+      ht_user = Tweet.includes(:user).find_by(id: h.tweet.id)
+      @hashtag_user << ht_user
+    end
   end
 
 private
@@ -170,7 +169,7 @@ private
   end
 
   def trending_tweets
-    @trending = Hashtag.all
+    @trending = Hashtag.select(:id, :hashtag)
 
     @trend_count = []
     @trending.each do |t|
@@ -179,6 +178,12 @@ private
       @trend_count << @count       
 
     end
+  end
+
+  def follow_following_like
+    @following = Relationship.all.where("follower_id = ?", @user.id)
+    @follower = Relationship.all.where("following_id = ?", @user.id)
+    @total_like = Like.where("user_id = ?", @user.id)
   end
 
 end

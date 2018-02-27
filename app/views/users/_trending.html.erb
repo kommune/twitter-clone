@@ -1,14 +1,27 @@
 <div class="trending-col">
   
-  <h5 class="trending-col-header"><strong>Trending on Twitta-Sphere</strong></h5>
-    <% counter = 0 %>
-    <% @trending.each do |t| %>
-    
-      <p class="trending-col-k"><strong><%= t.hashtag %></strong></p>
-      <p class="trending-col-v"><%= @trend_count[counter] %> Tweets</p>
-    
-    <% counter += 1 %>
-    
-    <% end %>
+  <h5 class="trending-col-header"><strong>Top 5 Trending</strong></h5>
+
+  <% trending_hash = Hash[@trending.zip @trend_count] %>
+  <% trending_hash = trending_hash.sort_by {|k, v| v}.reverse %>
+
+  <% counter = 0%>
+  <% trending_hash.each do |k, v| %>
+
+  <%= form_tag hashtag_users_path, method: :get do %>
+  <%= hidden_field_tag :hashtag_id, k.id %>  
+  <%= hidden_field_tag :hashtag_name, k.hashtag %>
+    <p class="trending-col-k"><strong><%= submit_tag "#{k.hashtag}", class: "trending-col-link" %></strong></p>
+  <% end %>
+
+    <p class="trending-col-v"><%= v %> Tweets</p>
+
+    <% counter += 1%>
+    <% if counter == 5 
+      break
+      end %>
+
+  <% end %>
+
 
 </div>

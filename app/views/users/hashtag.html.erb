@@ -1,0 +1,62 @@
+<div class="user-index-container">
+
+  <%= render partial: "avatar" %>  
+
+  <%= render partial: "trending" %>  
+
+  <div class="tweets-col">
+
+    <div class="search-header"> Hashtag <strong><%= @hashtag_name %></strong> </div>
+    <% if @hashtag.empty? %>
+      No tweets found under <strong><%= @hashtag_name %></strong>
+    <% end %>
+
+    <% @hashtag.each do |h| %>
+
+      <div class="card">
+        <div class="card-block">
+          <table>
+            <tr>
+              <% @hashtag_user.each do |x| %>
+                <% if h.tweet.id == x.id %>
+                  <td class="tweet-pic-align">
+                    <%= image_tag x.user.img, class: "avatar-pic-for-like" %>
+                  </td>
+
+                  <td class="tweet-details-align">
+                    <strong><%= x.user.name %></strong> <span class="tweet-name">@<%= x.user.handlename %>  · <%= x.created_at.strftime("%e %b") %> </span></br>
+                    <%= x.tweet %></br>
+                    <%= image_tag x.image, width: '300em' if x.image? %></br>
+                   <p class="options">
+                      <%= link_to 'Reply', tweet_path(x), class: "btn btn-outline-primary btn-sm" %>
+                      <%= link_to 'Show', tweet_path(x), class: "btn btn-outline-primary btn-sm" %>
+                      <% if x.user.id == current_user.id %>
+                        <%= link_to 'Edit', edit_tweet_path(x), class: "btn btn-outline-primary btn-sm" %>
+                        <%= link_to 'Delete', tweet_path(x), method: :delete, data: {confirm:"Are you sure?"}, remote: true, class: "btn btn-outline-primary btn-sm" %>
+                      <% end %>
+                    <% if x.likes.any? { |like| like.user == current_user } %>
+                      <%= link_to image_tag("filled.svg"), dislike_user_tweet_path(@user, x), method: :delete, remote: true %>
+                    <% else %>
+                      <%= link_to image_tag("not_filled.svg"), like_user_tweet_path(@user, x), method: :post, remote: true %>
+                    <% end %>
+                    </p>
+                  </td>
+
+                <% end %>
+              <% end %>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    <% end %>
+
+  </div>
+
+  <%= render partial: "navigation" %>
+
+  <%= render partial: "counter" %>
+
+</div>
+
+  <%= render partial: "edit_profile_form" %>

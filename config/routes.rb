@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     get :follower, on: :collection
     get :profile, on: :collection
     get :total_like, on: :collection
+    get :hashtag, on: :collection
 
     resources :tweets, only: [:index, :show] do
       resources :replies, only: [:create, :destroy]
