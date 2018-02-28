@@ -10,4 +10,8 @@ RSpec.describe Hashtag, type: :model do
     expect(hashtag).to validate_uniqueness_of(:hashtag).case_insensitive
   end
 
+  it { is_expected.to have_many(:hashtagstweets).dependent(:destroy) }
+
+  it { is_expected.to have_many(:tweets).through(:hashtagstweets) }
+
 end
